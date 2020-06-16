@@ -1,0 +1,5 @@
+
+chatapp/node_modules
+chatapp/build
+.DS_Store
+chatapp/package-lock.json
