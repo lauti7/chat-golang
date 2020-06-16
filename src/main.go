@@ -7,10 +7,6 @@ import (
   "github.com/gorilla/websocket"
 )
 
-var clients = make(map[*websocket.Conn]bool) // connected clients
-var broadcast = make(chan Message)// broadcast channel
-var typing = make(chan Message) //typing channel
-
 var upgrader = websocket.Upgrader{}
 
 type ClientManager struct {
