@@ -20,7 +20,7 @@ func main() {
 
 	fs := http.FileServer(http.Dir("../chatapp/build"))
 
-	http.Handle("/", fs)
+	http.Handle("/chat", fs)
 
 	go clientManager.run()
 
