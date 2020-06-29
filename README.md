@@ -1,7 +1,7 @@
 # simplechat-golang
 Simple Chat Application built with GoLang and ReactJS. It is a general chat that receive **join event**, **leave event**, **typing event** and of course **message event**
 
-##How to run ?
+## How to run ?
 1. Open your terminal: `cd $GOPATH`
 2. `git clone https://github.com/lauti7/simplechat-golang.git`
 3. In the project folder, run: `go get ./...`
