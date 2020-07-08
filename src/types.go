@@ -28,10 +28,10 @@ type Client struct {
 	Username string          `json:"userName"`
 }
 
-func (manager *ClientManager) handleConnections(w http.ResponseWriter, r *http.Request) {
+func (manager *ClientManager) handleConnections(c *gin.Context) {
 
-	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
-	ws, err := upgrader.Upgrade(w, r, nil)
+	upgrader.CheckOrigin = func(r *c.Request) bool { return true }
+	ws, err := upgrader.Upgrade(c.Writer, c.Request, nil)
 
 	if err != nil {
 		log.Fatal(err)
