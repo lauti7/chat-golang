@@ -10,7 +10,8 @@ const authId = JSON.parse(localStorage.getItem("authId"))
 
 const initialState = {
   isAuthenticated: authId ? true : false,
-  authId: authId ? authId : null
+  authId: authId ? authId : null,
+  currentChat: null
 }
 
 const reducer = (state, action) => {
@@ -26,6 +27,11 @@ const reducer = (state, action) => {
       return {
         isAuthenticated: false,
         authId: null
+      }
+    case "SELECTCHAT":
+      return {
+        ...state,
+        currentChat: action.currentChat
       }
   }
 }
