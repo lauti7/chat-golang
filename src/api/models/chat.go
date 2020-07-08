@@ -28,7 +28,7 @@ func (c *Chat) Between(auth uint, other uint) {
 	db.DB.Raw("select c.* from chats as c where exists (select * from users as u inner join participants as p on p.user_id = u.id where c.id = p.chat_id and p.user_id = ?) and exists (select * from users as u inner join participants as p on p.user_id = u.id where c.id = p.chat_id and p.user_id = ?) limit 1", auth, other).Scan(&c)
 
 	if c.ID > 0 {
-		c.GetChatUsers()
+		c.GetChatParticipant(auth)
 		c.GetChattMessages()
 	} else {
 		c.CreateChat()
@@ -41,7 +41,7 @@ func (c *Chat) Between(auth uint, other uint) {
 			p.CreateChatParticipant()
 		}
 
-		c.GetChatUsers()
+		c.GetChatParticipant(auth)
 
 	}
 
@@ -64,6 +64,12 @@ func (c *Chat) GetChatUsers() {
 
 	db.DB.Raw("select u.* from participants as p inner join users as u on p.user_id = u.id where p.chat_id = ?", c.ID).Scan(&c.Users)
 
+}
+
+func (c *Chat) GetChatParticipant(auth uint) {
+	db := database.GetDatabase()
+
+	db.DB.Raw("select u.* from participants as p inner join users as u on p.user_id = u.id where p.chat_id = ? and p.user_id != ?", c.ID, auth).Scan(&c.Users)
 }
 
 func (c *Chat) GetChattMessages() {
