@@ -4,8 +4,28 @@ import { ListGroup, ListGroupItem, Badge, Button } from 'reactstrap';
 
 const UsersList = ({users}) => {
 
+  const {state, dispatch} = useAuth()
+
   const selectChat = id => {
-    console.log(id);
+    const chat = {
+      type: "one-to-one",
+      participants: [{user_id: state.authId}, {user_id: id}]
+    }
+    fetch("http://localhost:8080/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(chat)
+    })
+    .then(res => res.json())
+    .then(json => {
+      console.log(json);
+      dispatch({
+        type: "SELECTCHAT",
+        currentChat: json.chat //TODO: remove messages array sent from backend
+      })
+    })
   }
 
   return (
