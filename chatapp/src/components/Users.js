@@ -8,8 +8,6 @@ const Users = () => {
 
   const {state, dispatch} = useAuth()
 
-  const [users, setUsers] = useState([])
-
   const fetchUsers = () => {
     fetch("http://localhost:8080/api/users", {
       method: "GET",
@@ -19,7 +17,10 @@ const Users = () => {
     })
     .then(res => res.json())
     .then(json => {
-      setUsers([...json.users])
+      dispatch({
+        type:"FETCHUSERS",
+        users: json.users
+      })
     })
   }
 
@@ -29,7 +30,7 @@ const Users = () => {
 
   return (
     <div className="mt-3">
-      <UsersList users={users}/>
+      <UsersList/>
     </div>
   )
 }
