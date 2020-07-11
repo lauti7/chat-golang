@@ -27,6 +27,7 @@ const Login = () => {
       dispatch({
         type: 'LOGIN',
         authId: json.user.id,
+        userName: json.user.user_name
       })
     })
   }
