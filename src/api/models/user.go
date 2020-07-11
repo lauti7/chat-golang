@@ -23,6 +23,16 @@ func GetAllUsers(authId string) []User {
 
 }
 
+func GetUsername(id uint) string {
+	user := User{}
+
+	db := database.GetDatabase()
+
+	db.DB.Find(&user, id)
+
+	return user.Username
+}
+
 func CreateUser(username string) User {
 
 	user := User{
