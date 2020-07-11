@@ -1,31 +1,26 @@
 package main
 
 import (
-	chatController "./api/chat"
 	"github.com/gin-gonic/gin"
-	"github.com/gorilla/websocket"
+	chatController "./api/chat"
 	// messageController "../../api/message"
 	// participantController "../../api/participant"
 	userController "./api/user"
 	"./internals/database"
 )
 
-var upgrader = websocket.Upgrader{}
-
 func main() {
 
 	_ = database.GetDatabase()
 
-	// clientManager := ClientManager{
-	// 	Clients:    make(map[Client]bool),
-	// 	Broadcast:  make(chan Message),
-	// 	Typing:     make(chan Message),
-	// 	Register:   make(chan Client),
-	// 	Unregister: make(chan Client),
-	// }
+	usersManager := UsersManager{
+		OnlineUsers:    make(map[uint]OnlineUser),
+		RegisterChannel:   make(chan OnlineUser),
+		UnregisterChannel: make(chan OnlineUser),
+	}
 
 	//Channels start waiting for receiving
-	// go clientManager.run()
+	go usersManager.registration()
 
 	server := gin.Default()
 	server.Use(CORSMiddleware())
@@ -42,9 +37,12 @@ func main() {
 		api.POST("/users", userController.CreateUser)
 		api.POST("/users/login", userController.Login)
 		api.POST("/chat", chatController.CreateChat)
+		api.GET("/ws", checkAndFindUser() ,func(c *gin.Context) {
+			user, _ := c.Keys["user"]
+			usersManager.handleWS(c.Writer, c.Request, user)
+		})
 	}
 
-	// server.GET("/ws", clientManager.handleConnections)
 
 	server.Run()
 
