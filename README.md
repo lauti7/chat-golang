@@ -4,8 +4,8 @@ Simple Chat Application built with GoLang and ReactJS. It is a general chat that
 ## How to run ?
 1. Open your terminal and run: `cd $GOPATH`
 2. After that, run: `git clone https://github.com/lauti7/simplechat-golang.git`
-3. In the project folder, run: `go get ./...`
-4. Then, `cd src` and run: `go run *.go`
+3.`cd simplechat-golang` & `cd src`
+4. Then, run: `cd src` and run: `go run *.go`
 5. Open a new terminal tab in project folder and run: `cd chatapp && npm start`
 
 Once you're done, on port `:9000` is running Golang Backend and on port `:3000` is running React.
